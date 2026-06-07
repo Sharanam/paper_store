@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #111827;
+            --panel-2: #1f2937;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --danger: #ef4444;
+            --success: #10b981;
+            --border: rgba(148, 163, 184, 0.2);
+            --shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, Arial, Helvetica, sans-serif;
+            background: radial-gradient(circle at top, #1e293b, var(--bg) 60%);
+            color: var(--text);
+        }
+
+        header {
+            padding: 28px;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(31, 41, 55, 0.2));
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+        }
+
+        p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        main {
+            padding: 28px;
+            display: flex;
+            gap: 24px;
+            flex-direction: column;
+        }
+
+        section {
+            width: 100%;
+            background: linear-gradient(180deg, rgba(31, 41, 55, 0.95), rgba(17, 24, 39, 0.95));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        h2 {
+            margin: 0 0 14px;
+            font-size: 1.2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 6px;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        input,
+        select {
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font: inherit;
+            outline: none;
+        }
+
+        input {
+            width: 100%;
+        }
+
+        .search-container input {
+            flex-grow: 1;
+        }
+
+        select {
+            cursor: pointer;
+            min-width: 140px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: rgba(56, 189, 248, 0.7);
+        }
+
+        button {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #08111f;
+            background: var(--accent);
+            transition: opacity 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.secondary {
+            background: var(--panel-2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        button.success-btn {
+            background: var(--success);
+            color: #ffffff;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        button.danger-btn {
+            background: var(--danger);
+            color: #ffffff;
+        }
+
+        .status-container {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status {
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .loader {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(56, 189, 248, 0.2);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .remarks-input {
+            width: 100%;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.88rem;
+        }
+
+        .manual-form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            overflow: auto;
+            color: #d1fae5;
+            max-height: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <header>
+            <h1>Papers Collector</h1>
+            <p>Demo Project for Trial</p>
+        </header>
+
+        <main>
+
+            <section>
+                <h2>Submit Query & Discovery Search</h2>
+                <div>
+                    <label for="paperSearch">Provider: </label>
+                    <div class="search-container" style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <select id="apiEngine">
+                            <option value="openalex">OpenAlex API</option>
+                            <option value="crossref">Crossref API</option>
+                        </select>
+                        <input id="paperSearch" type="text" placeholder="Search for papers or topics" />
+                        <button id="paperSearchBtn" type="button">Search</button>
+                    </div>
+
+                    <table id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">DOI</th>
+                                <th style="width: 25%;">Title</th>
+                                <th style="width: 15%;">Authors</th>
+                                <th style="width: 7%;">Year</th>
+                                <th style="width: 13%;">Publisher</th>
+                                <th style="width: 15%;">Custom Remarks</th>
+                                <th style="width: 5%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="status-container">
+                    <div class="loader" id="mainLoader"></div>
+                    <div class="status" id="status">Ready.</div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Add Manual Paper Record</h2>
+                <form id="manualPaperForm">
+                    <label for="manDoi">Digital Object Identifier (DOI) *</label>
+                    <input id="manDoi" type="text" placeholder="e.g., 10.1103/physrevlet.123.456" required />
+
+                    <label for="manTitle">Paper Title *</label>
+                    <input id="manTitle" type="text" placeholder="Enter complete document header title" required />
+
+                    <label for="manAuthors">Author Group String</label>
+                    <input id="manAuthors" type="text" placeholder="Author names split by commas" />
+
+                    <div class="manual-form-group">
+                        <div>
+                            <label for="manYear">Publication Year</label>
+                            <input id="manYear" type="number" placeholder="e.g., 2026" />
+                        </div>
+                        <div>
+                            <label for="manPublisher">Publisher Journal</label>
+                            <input id="manPublisher" type="text" placeholder="e.g., Nature, IEEE" />
+                        </div>
+                    </div>
+
+                    <label for="manRemarks">Contextual Remarks / Observations</label>
+                    <input id="manRemarks" type="text" placeholder="Add analytical context notes here..." />
+
+                    <button id="manualSubmitBtn" type="submit" class="success-btn">Save Manual Entry</button>
+                </form>
+            </section>
+
+
+            <section>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 14px;">
+                    <h2 style="border-bottom: none; margin: 0; padding-bottom: 0;">Backend Database Records Collection
+                    </h2>
+                    <button id="loadSavedBtn" type="button" class="secondary">Load Saved Papers</button>
+                </div>
+
+                <div id="savedContainer" style="overflow-x: auto;">
+                    <table id="savedTable">
+                        <thead>
+                            <tr>
+                                <th style="width: 20%;">DOI</th>
+                                <th style="width: 22%;">Title</th>
+                                <th style="width: 15%;">Authors</th>
+                                <th style="width: 6%;">Year</th>
+                                <th style="width: 10%;">Publisher</th>
+                                <th style="width: 17%;">Saved Remarks</th>
+                                <th style="width: 10%;">Saved At</th>
+                                <th style="width: 5%;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </section>
+            <section>
+                <h3 style="font-size:1rem; margin: 20px 0 8px; color:var(--muted)">Raw Output Log</h3>
+                <pre id="output">No response yet.</pre>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const outputEl = document.getElementById('output');
+        const loaderEl = document.getElementById('mainLoader');
+
+        function toggleLoading(isLoading, statusText = '') {
+            if (isLoading) {
+                loaderEl.style.display = 'inline-block';
+                if (statusText) statusEl.textContent = statusText;
+            } else {
+                loaderEl.style.display = 'none';
+                if (statusText) statusEl.textContent = statusText;
+            }
+        }
+    </script>
+    <script>
+        const paperSearchInput = document.getElementById('paperSearch');
+        const paperSearchBtn = document.getElementById('paperSearchBtn');
+        const apiEngineSelect = document.getElementById('apiEngine');
+        const resultsTableBody = document.querySelector('#resultsTable tbody');
+        const loadSavedBtn = document.getElementById('loadSavedBtn');
+        const savedTableBody = document.querySelector('#savedTable tbody');
+        const manualForm = document.getElementById('manualPaperForm');
+        const manualSubmitBtn = document.getElementById('manualSubmitBtn');
+
+        // Execute queries across discovery API interfaces
+        paperSearchBtn.addEventListener('click', async () => {
+            const q = paperSearchInput.value.trim();
+            const engine = apiEngineSelect.value;
+            if (!q) return;
+
+            toggleLoading(true, `Querying data via ${engine === 'openalex' ? 'OpenAlex' : 'Crossref'}...`);
+            paperSearchBtn.disabled = true;
+            paperSearchBtn.textContent = 'Searching...';
+
+            try {
+                const resp = await fetch(`/api/search?q=${encodeURIComponent(q)}&engine=${engine}`);
+                const json = await resp.json();
+                if (!resp.ok) throw new Error(json.error || 'Search failed');
+
+                const results = json.results || [];
+                resultsTableBody.innerHTML = '';
+
+                if (!results.length) {
+                    resultsTableBody.innerHTML = '<tr><td colspan="7" style="padding:8px;color:var(--muted)">No results found.</td></tr>';
+                    toggleLoading(false, 'No results match search telemetry.');
+                    return;
+                }
+
+                results.forEach((p, idx) => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${escapeHtml(p.doi || '')}</td>
+                        <td><strong>${escapeHtml(p.title || '')}</strong></td>
+                        <td>${escapeHtml(p.authors || '')}</td>
+                        <td>${escapeHtml(p.publication_year || '')}</td>
+                        <td>${escapeHtml(p.publisher || '')}</td>
+                        <td><input type="text" class="remarks-input" id="rem-input-${idx}" placeholder="Add remarks..." /></td>
+                        <td><button class="save-btn" id="save-btn-${idx}">Save</button></td>
+                    `;
+                    tr.querySelector('.save-btn').addEventListener('click', (e) => {
+                        const customRemark = document.getElementById(`rem-input-${idx}`).value.trim();
+                        const recordWithRemark = { ...p, remarks: customRemark || null };
+                        savePaper(recordWithRemark, e.target);
+                    });
+                    resultsTableBody.appendChild(tr);
+                });
+                toggleLoading(false, 'Search completed successfully.');
+            } catch (err) {
+                console.error(err);
+                toggleLoading(false, 'Search pipeline operation failed.');
+                outputEl.textContent = err.message;
+            } finally {
+                paperSearchBtn.disabled = false;
+                paperSearchBtn.textContent = 'Search';
+            }
+        });
+
+        // Common persistence pipeline handler
+        async function savePaper(paper, buttonEl) {
+            toggleLoading(true, 'Committing paper records to system memory...');
+            if (buttonEl) {
+                buttonEl.disabled = true;
+                buttonEl.textContent = 'Saving...';
+            }
+
+            try {
+                const resp = await fetch('/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(paper)
+                });
+                const json = await resp.json().catch(() => ({}));
+                if (!resp.ok) throw new Error(json.error || 'Save connection failed');
+
+                toggleLoading(false, 'Paper indexed securely.');
+                outputEl.textContent = JSON.stringify(json, null, 2);
+                loadSavedBtn.click();
+            } catch (err) {
+                console.error(err);
+                toggleLoading(false, 'Failed to log database target entry.');
+                outputEl.textContent = err.message;
+                if (buttonEl) {
+                    buttonEl.disabled = false;
+                    buttonEl.textContent = 'Save';
+                }
+            }
+        }
+
+        // Process manual user submissions
+        manualForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const manualPaper = {
+                doi: document.getElementById('manDoi').value.trim(),
+                title: document.getElementById('manTitle').value.trim(),
+                authors: document.getElementById('manAuthors').value.trim() || null,
+                publication_year: parseInt(document.getElementById('manYear').value) || null,
+                publisher: document.getElementById('manPublisher').value.trim() || null,
+                remarks: document.getElementById('manRemarks').value.trim() || null
+            };
+
+            manualSubmitBtn.disabled = true;
+            manualSubmitBtn.textContent = 'Saving Entry...';
+
+            await savePaper(manualPaper, null);
+
+            manualSubmitBtn.disabled = false;
+            manualSubmitBtn.textContent = 'Save Manual Entry';
+            manualForm.reset();
+        });
+
+        // Pull saved records from PostgreSQL storage array
+        loadSavedBtn.addEventListener('click', async () => {
+            toggleLoading(true, 'Updating localized repository table instances...');
+            loadSavedBtn.disabled = true;
+            loadSavedBtn.textContent = 'Loading...';
+
+            try {
+                const resp = await fetch('/api/saved-papers');
+                const json = await resp.json().catch(() => ({}));
+                if (!resp.ok) throw new Error(json.error || 'Retrieval execution loop dropped');
+
+                const rows = json.results || [];
+                savedTableBody.innerHTML = '';
+
+                if (!rows.length) {
+                    savedTableBody.innerHTML = '<tr><td colspan="8" style="padding:8px;color:var(--muted)">No saved records present in storage array.</td></tr>';
+                } else {
+                    rows.forEach((r, idx) => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><small>${escapeHtml(r.doi || '')}</small></td>
+                            <td>${escapeHtml(r.title || '')}</td>
+                            <td>${escapeHtml(r.authors || '')}</td>
+                            <td>${escapeHtml(r.publication_year || '')}</td>
+                            <td>${escapeHtml(r.publisher || '')}</td>
+                            <td style="color:#38bdf8; font-style:italic;">${escapeHtml(r.remarks || '---')}</td>
+                            <td><small>${escapeHtml(r.saved_at || '')}</small></td>
+                            <td><button class="danger-btn delete-btn" id="delete-btn-${idx}">Delete</button></td>
+                        `;
+                        tr.querySelector('.delete-btn').addEventListener('click', (e) => deletePaper(r.doi, e.target));
+                        savedTableBody.appendChild(tr);
+                    });
+                }
+                toggleLoading(false, 'Sync operation finished.');
+            } catch (err) {
+                console.error(err);
+                toggleLoading(false, 'Error synchronizing parsing operations.');
+                outputEl.textContent = err.message;
+            } finally {
+                loadSavedBtn.disabled = false;
+                loadSavedBtn.textContent = 'Load Saved Papers';
+            }
+        });
+
+        // Trigger individual soft-deletion pipeline paths
+        async function deletePaper(doi, buttonEl) {
+            if (!confirm("Are you sure you want to remove this paper?")) return;
+
+            toggleLoading(true, 'Executing tracking drop routines...');
+            buttonEl.disabled = true;
+            buttonEl.textContent = 'Deleting...';
+
+            try {
+                const resp = await fetch('/api/saved-papers', {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ doi })
+                });
+                const json = await resp.json().catch(() => ({}));
+                if (!resp.ok) throw new Error(json.error || 'Delete handling failure');
+
+                toggleLoading(false, 'Record flagged out of dynamic viewport views.');
+                outputEl.textContent = JSON.stringify(json, null, 2);
+                loadSavedBtn.click();
+            } catch (err) {
+                console.error(err);
+                toggleLoading(false, 'Soft delete update transaction aborted.');
+                outputEl.textContent = err.message;
+                buttonEl.disabled = false;
+                buttonEl.textContent = 'Delete';
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedBtn.click();
+        });
+    </script>
+</body>
+
+</html>
